@@ -1,0 +1,25 @@
+version: '3.7'
+
+volumes:
+  mongo:
+    
+networks:
+  back:
+    external:
+      name: infrastructure_back
+services:
+    mongo:
+      image: mongo:2.4
+      volumes:
+        - mongo:/data/db
+    png:
+      build: ./conversion_service
+      environment:
+        - CONVERT_FORMAT=png
+      networks:
+        - back
+      ports:
+        - "3001:3001"
+      command: bundle exec rails server -p 3001 -b 0.0.0.0
+    
+
