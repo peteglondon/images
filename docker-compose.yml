@@ -21,5 +21,14 @@ services:
       ports:
         - "3001:3001"
       command: bundle exec rails server -p 3001 -b 0.0.0.0
+    gif:
+      build: ./conversion_service
+      environment:
+        - CONVERT_FORMAT=gif
+      networks:
+        - back
+      ports:
+        - "3002:3002"
+      command: bundle exec rails server -p 3002 -b 0.0.0.0
     
 
