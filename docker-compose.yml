@@ -30,16 +30,26 @@ services:
         - "3000:3000"
       command: bundle exec rails s -p 3000 -b 0.0.0.0
     png:
-      build: ./conversion_service
+      # build: ./conversion_service
+      image: peteglondon/conversion_service
       environment:
         - CONVERT_FORMAT=png
+      networks:
+        - back
+      command: bundle exec rails s -p 3001 -b 0.0.0.0
+    bmp:
+      # build: ./conversion_service
+      image: peteglondon/conversion_service
+      environment:
+        - CONVERT_FORMAT=bmp
       networks:
         - back
       ports:
         - "3001:3001"
       command: bundle exec rails s -p 3001 -b 0.0.0.0
     gif:
-      build: ./conversion_service
+      # build: ./conversion_service
+      image: peteglondon/conversion_service
       environment:
         - CONVERT_FORMAT=gif
       networks:
