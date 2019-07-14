@@ -1,0 +1,34 @@
+development:
+  clients:
+    default:
+      uri: mongodb://127.0.0.1/images_development
+      options:
+        write:
+          w: 1
+        read:
+          mode: :primary
+
+test:
+  clients:
+    default:
+      uri: mongodb://127.0.0.1/images_test
+      options:
+        write:
+          w: 1
+        read:
+          mode: :primary
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0
+
+production:
+  clients:
+    default:
+      uri: <%= ENV['MONGODB_URI'] %>
+      options:
+        write:
+          w: 1
+        read:
+          mode: :primary
+        retry_interval: 120
