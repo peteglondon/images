@@ -1,20 +1,25 @@
 version: '3.7'
 
+volumes:
+  mongo:
+
 networks:
   back:
     external:
       name: infrastructure_back
 services:
     mongo:
-      image: mongo:3.6
+      image: mongo:3.4
       volumes:
-        - /mnt/mongodb:/data/db
+        - mongo:/data/db
       networks:
         - back
       ports:
         - "27017:27017"
     images:
       build: ./image_service
+      environment:
+        - MONGODB_URI=mongodb://mongo/images_test'
       depends_on:
         - mongo
         - png
@@ -23,6 +28,7 @@ services:
         - back
       ports:
         - "3000:3000"
+      command: bundle exec rails s -p 3000 -b 0.0.0.0
     png:
       build: ./conversion_service
       environment:
@@ -38,8 +44,6 @@ services:
         - CONVERT_FORMAT=gif
       networks:
         - back
-      ports:
-        - "3002:3002"
-      command: bundle exec rails s -p 3002 -b 0.0.0.0
+      command: bundle exec rails s -p 3001 -b 0.0.0.0
     
 
